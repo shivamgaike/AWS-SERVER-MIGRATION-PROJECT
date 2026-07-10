@@ -1,0 +1,38 @@
+# Become root
+sudo -s
+
+# Install Apache HTTP Server
+yum install -y httpd
+
+# Create a sample web page
+cd /var/www/html
+vi index.html
+
+# Start and enable Apache
+systemctl start httpd
+systemctl enable httpd.service
+
+# Create test files
+cd /home/ec2-user
+mkdir test
+cd test
+touch python{1..5}
+ls
+
+# Return to home directory
+cd
+cd /home/ec2-user
+
+# Download the AWS Application Migration Service (MGN) Replication Agent
+sudo wget -O ./aws-replication-installer-init \
+https://aws-application-migration-service-ap-south-1.s3.ap-south-1.amazonaws.com/latest/linux/aws-replication-installer-init
+
+# Make the installer executable
+sudo chmod +x aws-replication-installer-init
+
+# Install the Replication Agent
+sudo ./aws-replication-installer-init \
+--region ap-south-1 \
+--aws-access-key-id <YOUR_ACCESS_KEY> \
+--aws-secret-access-key <YOUR_SECRET_KEY> \
+--no-prompt
